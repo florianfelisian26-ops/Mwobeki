@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="sw" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MWOMBEKI INTERNATIONAL COMPANY</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Josefin+Sans:wght@100;200;300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #e8c97e;
+    --gold-dark: #8a6a1f;
+    --cream: #fdf6ec;
+    --bg-dark: #0a0806;
+    --bg-dark2: #110e09;
+    --bg-dark3: #1a1510;
+    --text-dark: #f0e6d3;
+    --text-muted-dark: #9a8870;
+    --card-dark: #15110c;
+    --border-dark: #2a2218;
+    --bg-light: #fdf6ec;
+    --bg-light2: #f5ead8;
+    --bg-light3: #ede0c8;
+    --text-light: #1a1208;
+    --text-muted-light: #7a6040;
+    --card-light: #ffffff;
+    --border-light: #e0c898;
+    --transition: 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    --shadow-gold: 0 0 40px rgba(201,168,76,0.3);
+    --shadow-heavy: 0 20px 60px rgba(0,0,0,0.5);
+  }
+  [data-theme="dark"] {
+    --bg: var(--bg-dark); --bg2: var(--bg-dark2); --bg3: var(--bg-dark3);
+    --text: var(--text-dark); --text-muted: var(--text-muted-dark);
+    --card: var(--card-dark); --border: var(--border-dark);
+  }
+  [data-theme="light"] {
+    --bg: var(--bg-light); --bg2: var(--bg-light2); --bg3: var(--bg-light3);
+    --text: var(--text-light); --text-muted: var(--text-muted-light);
+    --card: var(--card-light); --border: var(--border-light);
+  }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Josefin Sans', sans-serif;
+    background: var(--bg); color: var(--text);
+    overflow-x: hidden; transition: background var(--transition), color var(--transition);
+  }
+  .cursor { width: 12px; height: 12px; background: var(--gold); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transition: transform 0.15s; mix-blend-mode: difference; }
+  .cursor-follower { width: 40px; height: 40px; border: 1px solid var(--gold); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9998; transition: transform 0.4s cubic-bezier(0.23,1,0.32,1), width 0.3s, height 0.3s; }
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    padding: 0 5%; display: flex; align-items: center; justify-content: space-between;
+    height: 80px; background: rgba(10,8,6,0.85); backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border); transition: all var(--transition);
+  }
+  [data-theme="light"] nav { background: rgba(253,246,236,0.9); }
+  .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 600; letter-spacing: 0.15em; color: var(--gold); text-decoration: none; }
+  .nav-logo span { display: block; font-size: 0.55rem; letter-spacing: 0.4em; color: var(--text-muted); font-family: 'Josefin Sans', sans-serif; font-weight: 200; margin-top: -2px; }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a { text-decoration: none; color: var(--text); font-size: 0.7rem; letter-spacing: 0.25em; font-weight: 300; text-transform: uppercase; position: relative; transition: color var(--transition); }
+  .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; right: 0; height: 1px; background: var(--gold); transform: scaleX(0); transform-origin: right; transition: transform var(--transition); }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
+  .nav-controls { display: flex; align-items: center; gap: 1.5rem; }
+  .theme-btn { background: none; border: 1px solid var(--border); color: var(--gold); width: 38px; height: 38px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; transition: all var(--transition); }
+  .theme-btn:hover { background: var(--gold); color: var(--bg); border-color: var(--gold); }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 5px; }
+  .hamburger span { width: 24px; height: 1.5px; background: var(--gold); transition: all var(--transition); display: block; }
+  .mobile-menu { display: none; position: fixed; top: 80px; left: 0; right: 0; bottom: 0; background: var(--bg); z-index: 999; flex-direction: column; align-items: center; justify-content: center; gap: 3rem; }
+  .mobile-menu.active { display: flex; }
+  .mobile-menu a { font-size: 1.5rem; letter-spacing: 0.3em; color: var(--text); text-decoration: none; text-transform: uppercase; }
+  .mobile-menu a:hover { color: var(--gold); }
+  .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; background: radial-gradient(ellipse at 30% 50%, rgba(201,168,76,0.08) 0%, transparent 60%), radial-gradient(ellipse at 70% 20%, rgba(201,168,76,0.05) 0%, transparent 50%); }
+  .hero-bg-text { position: absolute; font-family: 'Cormorant Garamond', serif; font-size: clamp(80px, 15vw, 200px); font-weight: 700; letter-spacing: -0.02em; color: rgba(201,168,76,0.04); white-space: nowrap; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; user-select: none; }
+  .floating-products { position: absolute; width: 100%; height: 100%; pointer-events: none; }
+  .float-item { position: absolute; font-size: 3rem; opacity: 0.15; animation: floatAround 8s infinite ease-in-out; }
+  .float-item:nth-child(1){top:15%;left:5%;animation-delay:0s;}
+  .float-item:nth-child(2){top:20%;right:8%;animation-delay:1.5s;}
+  .float-item:nth-child(3){bottom:25%;left:8%;animation-delay:3s;}
+  .float-item:nth-child(4){bottom:20%;right:5%;animation-delay:4.5s;}
+  .float-item:nth-child(5){top:50%;left:2%;animation-delay:2s;}
+  .float-item:nth-child(6){top:60%;right:3%;animation-delay:3.5s;}
+  @keyframes floatAround { 0%,100%{transform:translateY(0) rotate(0deg);opacity:0.15;} 33%{transform:translateY(-20px) rotate(5deg);opacity:0.25;} 66%{transform:translateY(10px) rotate(-3deg);opacity:0.1;} }
+  .hero-content { text-align: center; position: relative; z-index: 2; padding: 0 5%; max-width: 900px; }
+  .hero-badge { display: inline-block; border: 1px solid var(--gold); padding: 6px 24px; font-size: 0.65rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); margin-bottom: 2rem; animation: fadeInDown 1s ease both; }
+  .hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem, 8vw, 7rem); font-weight: 300; line-height: 0.95; letter-spacing: -0.02em; margin-bottom: 1.5rem; animation: fadeInUp 1s ease 0.3s both; }
+  .hero-title em { font-style: italic; color: var(--gold); }
+  .hero-subtitle { font-size: 0.8rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 3rem; font-weight: 200; animation: fadeInUp 1s ease 0.5s both; }
+  .hero-cta { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; animation: fadeInUp 1s ease 0.7s both; }
+  .btn-primary { background: var(--gold); color: var(--bg-dark); padding: 14px 40px; font-family: 'Josefin Sans', sans-serif; font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; border: none; cursor: pointer; font-weight: 400; transition: all var(--transition); text-decoration: none; display: inline-block; position: relative; overflow: hidden; }
+  .btn-primary::after { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: rgba(255,255,255,0.2); transition: left 0.4s; }
+  .btn-primary:hover::after { left: 100%; }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: var(--shadow-gold); }
+  .btn-secondary { background: transparent; color: var(--text); padding: 13px 40px; font-family: 'Josefin Sans', sans-serif; font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; border: 1px solid var(--border); cursor: pointer; font-weight: 300; transition: all var(--transition); text-decoration: none; display: inline-block; }
+  .btn-secondary:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+  .ticker-wrap { background: var(--gold); overflow: hidden; padding: 12px 0; white-space: nowrap; }
+  .ticker { display: inline-block; animation: ticker 25s linear infinite; font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--bg-dark); font-weight: 400; }
+  .ticker span { margin: 0 3rem; }
+  @keyframes ticker { 0%{transform:translateX(0);} 100%{transform:translateX(-50%);} }
+  section { padding: 100px 5%; }
+  .section-label { font-size: 0.65rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; font-weight: 300; }
+  .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 5vw, 4rem); font-weight: 300; line-height: 1.1; margin-bottom: 1.5rem; }
+  .section-title em { font-style: italic; color: var(--gold); }
+  .section-divider { width: 60px; height: 1px; background: var(--gold); margin: 1.5rem 0 3rem; }
+  #services { background: var(--bg2); }
+  .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2px; margin-top: 3rem; }
+  .product-card { position: relative; overflow: hidden; aspect-ratio: 3/4; background: var(--bg3); cursor: pointer; }
+  .product-emoji-bg { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 6rem; opacity: 0.2; transition: all var(--transition); transform: scale(1); }
+  .product-card:hover .product-emoji-bg { transform: scale(1.3) rotate(10deg); opacity: 0.3; }
+  .product-gradient { position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,8,6,0.95) 0%, transparent 50%); }
+  [data-theme="light"] .product-gradient { background: linear-gradient(to top, rgba(253,246,236,0.95) 0%, transparent 50%); }
+  .product-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 2rem; transform: translateY(30px); transition: transform var(--transition); }
+  .product-card:hover .product-info { transform: translateY(0); }
+  .product-name { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 400; color: var(--text); margin-bottom: 0.3rem; }
+  .product-sub { font-size: 0.65rem; letter-spacing: 0.3em; color: var(--gold); text-transform: uppercase; }
+  .product-price { margin-top: 0.8rem; font-size: 0.8rem; color: var(--gold-light); opacity: 0; transition: opacity 0.3s 0.1s; }
+  .product-card:hover .product-price { opacity: 1; }
+  .product-animated { animation: productPulse 3s ease-in-out infinite; }
+  .product-card:nth-child(2) .product-animated{animation-delay:0.5s;}
+  .product-card:nth-child(3) .product-animated{animation-delay:1s;}
+  .product-card:nth-child(4) .product-animated{animation-delay:1.5s;}
+  .product-card:nth-child(5) .product-animated{animation-delay:2s;}
+  .product-card:nth-child(6) .product-animated{animation-delay:2.5s;}
+  @keyframes productPulse { 0%,100%{opacity:0.2;transform:scale(1);} 50%{opacity:0.35;transform:scale(1.05);} }
+  .video-section { background: var(--bg); text-align: center; position: relative; overflow: hidden; }
+  .video-wrapper { position: relative; max-width: 900px; margin: 3rem auto 0; border: 1px solid var(--border); overflow: hidden; }
+  .video-placeholder { aspect-ratio: 16/9; background: var(--bg3); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 1rem; position: relative; overflow: hidden; }
+  .video-bg-animation { position: absolute; inset: 0; overflow: hidden; }
+  .video-circle { position: absolute; border-radius: 50%; border: 1px solid rgba(201,168,76,0.2); animation: expandCircle 4s ease-in-out infinite; }
+  .video-circle:nth-child(1){width:200px;height:200px;top:50%;left:50%;transform:translate(-50%,-50%);animation-delay:0s;}
+  .video-circle:nth-child(2){width:350px;height:350px;top:50%;left:50%;transform:translate(-50%,-50%);animation-delay:1s;}
+  .video-circle:nth-child(3){width:500px;height:500px;top:50%;left:50%;transform:translate(-50%,-50%);animation-delay:2s;}
+  @keyframes expandCircle { 0%{opacity:0.5;transform:translate(-50%,-50%) scale(0.8);} 100%{opacity:0;transform:translate(-50%,-50%) scale(1.5);} }
+  .play-btn { width: 80px; height: 80px; border-radius: 50%; background: var(--gold); display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative; z-index: 2; border: none; transition: all var(--transition); font-size: 1.5rem; color: var(--bg-dark); animation: playPulse 2s ease-in-out infinite; }
+  @keyframes playPulse { 0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,0.5);} 50%{box-shadow:0 0 0 20px rgba(201,168,76,0);} }
+  .play-btn:hover { transform: scale(1.1); background: var(--gold-light); }
+  .video-label { font-size: 0.7rem; letter-spacing: 0.3em; color: var(--gold); z-index: 2; position: relative; }
+  #testimony { background: var(--bg2); }
+  .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+  .testimonial-card { background: var(--bg); border: 1px solid var(--border); padding: 2.5rem; position: relative; transition: all var(--transition); }
+  .testimonial-card:hover { border-color: var(--gold); transform: translateY(-5px); }
+  .testimonial-quote { font-family: 'Cormorant Garamond', serif; font-size: 4rem; color: var(--gold); line-height: 1; margin-bottom: 1rem; opacity: 0.5; }
+  .testimonial-text { font-size: 0.85rem; line-height: 1.8; color: var(--text-muted); font-style: italic; margin-bottom: 1.5rem; }
+  .testimonial-author { display: flex; align-items: center; gap: 1rem; }
+  .author-avatar { width: 45px; height: 45px; border-radius: 50%; background: var(--gold); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--bg-dark); font-weight: 600; font-family: 'Cormorant Garamond', serif; }
+  .author-name { font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 400; }
+  .author-location { font-size: 0.65rem; color: var(--gold); letter-spacing: 0.1em; }
+  .stars { color: var(--gold); font-size: 0.7rem; margin-bottom: 0.3rem; }
+  .payment-section { background: var(--bg); }
+  .payment-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+  .payment-card { background: var(--bg2); border: 1px solid var(--border); padding: 2rem; display: flex; flex-direction: column; align-items: center; gap: 1rem; transition: all var(--transition); text-align: center; }
+  .payment-card:hover { border-color: var(--gold); transform: translateY(-3px); box-shadow: var(--shadow-gold); }
+  .payment-icon { font-size: 2.5rem; }
+  .payment-name { font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); }
+  .payment-detail { font-size: 0.75rem; color: var(--text-muted); word-break: break-all; }
+  .payment-holder { font-size: 0.7rem; color: var(--text-muted); font-style: italic; }
+  #contact { background: var(--bg2); }
+  .contact-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; }
+  .contact-item { display: flex; align-items: flex-start; gap: 1.5rem; margin-bottom: 2.5rem; }
+  .contact-icon { width: 48px; height: 48px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--gold); font-size: 1rem; flex-shrink: 0; }
+  .contact-label { font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.3rem; }
+  .contact-value { font-size: 0.85rem; color: var(--text-muted); }
+  .whatsapp-btn { display: inline-flex; align-items: center; gap: 0.8rem; background: #25d366; color: white; padding: 12px 28px; text-decoration: none; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; transition: all var(--transition); margin-top: 0.5rem; border: none; cursor: pointer; font-family: 'Josefin Sans', sans-serif; }
+  .whatsapp-btn:hover { background: #1db954; transform: translateY(-2px); box-shadow: 0 10px 30px rgba(37,211,102,0.3); }
+  .form-group { margin-bottom: 1.5rem; }
+  .form-group label { display: block; font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.6rem; }
+  .form-group input, .form-group textarea, .form-group select { width: 100%; background: var(--bg); border: 1px solid var(--border); color: var(--text); padding: 14px 18px; font-family: 'Josefin Sans', sans-serif; font-size: 0.8rem; font-weight: 300; transition: border-color var(--transition); outline: none; resize: vertical; }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--gold); }
+  .form-group select option { background: var(--bg); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .social-section { background: var(--bg); padding: 60px 5%; }
+  .social-bar { display: flex; justify-content: center; align-items: center; gap: 2rem; flex-wrap: wrap; }
+  .social-link { display: flex; align-items: center; gap: 0.8rem; border: 1px solid var(--border); padding: 14px 28px; text-decoration: none; color: var(--text); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; transition: all var(--transition); }
+  .social-link i { font-size: 1.1rem; }
+  .social-link:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+  .social-link.tiktok:hover { border-color: #ff0050; color: #ff0050; }
+  .social-link.instagram:hover { border-color: #e1306c; color: #e1306c; }
+  .social-link.facebook:hover { border-color: #1877f2; color: #1877f2; }
+  .social-link.whatsapp:hover { border-color: #25d366; color: #25d366; }
+  #privacy { background: var(--bg2); }
+  .privacy-content { max-width: 800px; }
+  .privacy-item { margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+  .privacy-item:last-child { border-bottom: none; }
+  .privacy-item h4 { font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.8rem; }
+  .privacy-item p { font-size: 0.82rem; line-height: 1.9; color: var(--text-muted); }
+  footer { background: var(--bg-dark); color: var(--text-dark); padding: 60px 5% 30px; border-top: 1px solid var(--border); }
+  [data-theme="light"] footer { background: #111; }
+  .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 4rem; margin-bottom: 3rem; }
+  .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; color: var(--gold); margin-bottom: 1rem; }
+  .footer-desc { font-size: 0.78rem; line-height: 1.8; color: var(--text-muted-dark); max-width: 280px; }
+  .footer-col h5 { font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; }
+  .footer-col a { display: block; font-size: 0.75rem; color: var(--text-muted-dark); text-decoration: none; margin-bottom: 0.8rem; transition: color var(--transition); }
+  .footer-col a:hover { color: var(--gold); }
+  .footer-bottom { border-top: 1px solid rgba(42,34,24,0.5); padding-top: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  .footer-credits { font-size: 0.65rem; color: var(--text-muted-dark); letter-spacing: 0.1em; }
+  .footer-credits strong { color: var(--gold); }
+  .made-by { font-size: 0.7rem; color: var(--text-muted-dark); }
+  .made-by span { color: var(--gold); }
+  @keyframes fadeInDown { from{opacity:0;transform:translateY(-20px);} to{opacity:1;transform:translateY(0);} }
+  @keyframes fadeInUp { from{opacity:0;transform:translateY(30px);} to{opacity:1;transform:translateY(0);} }
+  .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .notification { position: fixed; bottom: 30px; right: 30px; z-index: 9999; background: var(--gold); color: var(--bg-dark); padding: 15px 25px; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; transform: translateX(200px); opacity: 0; transition: all 0.4s ease; pointer-events: none; }
+  .notification.show { transform: translateX(0); opacity: 1; }
+  .shimmer { position: relative; overflow: hidden; }
+  .shimmer::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(201,168,76,0.08), transparent); animation: shimmer 3s infinite; }
+  @keyframes shimmer { 0%{left:-100%;} 100%{left:200%;} }
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--gold); }
+  .back-top { position: fixed; bottom: 30px; left: 30px; width: 44px; height: 44px; background: var(--gold); color: var(--bg-dark); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1rem; opacity: 0; transition: all var(--transition); z-index: 100; transform: translateY(20px); }
+  .back-top.visible { opacity: 1; transform: translateY(0); }
+  .back-top:hover { background: var(--gold-light); }
+  @keyframes showcasePulse { 0%,100%{transform:scale(1) rotate(-5deg);} 50%{transform:scale(1.1) rotate(5deg);} }
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .products-grid { grid-template-columns: repeat(2, 1fr); }
+    .form-row { grid-template-columns: 1fr; }
+    section { padding: 70px 5%; }
+    nav { padding: 0 4%; }
+    .hero-cta { gap: 1rem; }
+    .social-bar { gap: 1rem; }
+    .payment-grid { grid-template-columns: repeat(2, 1fr); }
+    .contact-wrapper { grid-template-columns: 1fr; gap: 3rem; }
+    .footer-top { grid-template-columns: 1fr; gap: 2rem; }
+  }
+  @media (max-width: 480px) {
+    .products-grid { grid-template-columns: 1fr; }
+    .payment-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-follower" id="cursorFollower"></div>
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-chevron-up"></i></button>
+<div class="notification" id="notification">Ujumbe Umetumwa ✓</div>
+
+<nav id="navbar">
+  <a href="#home" class="nav-logo">MWOMBEKI<span>International Company</span></a>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#testimony">Testimony</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#privacy">Privacy</a></li>
+  </ul>
+  <div class="nav-controls">
+    <button class="theme-btn" id="themeBtn" title="Toggle Dark/Light Mode"><i class="fas fa-moon" id="themeIcon"></i></button>
+    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#home" onclick="closeMobileMenu()">Home</a>
+  <a href="#services" onclick="closeMobileMenu()">Services</a>
+  <a href="#testimony" onclick="closeMobileMenu()">Testimony</a>
+  <a href="#contact" onclick="closeMobileMenu()">Contact</a>
+  <a href="#privacy" onclick="closeMobileMenu()">Privacy</a>
+</div>
+
+<section id="home" class="hero">
+  <div class="hero-bg-text">MWOMBEKI</div>
+  <div class="floating-products">
+    <div class="float-item">👗</div>
+    <div class="float-item">⌚</div>
+    <div class="float-item">👠</div>
+    <div class="float-item">💍</div>
+    <div class="float-item">🎩</div>
+    <div class="float-item">🕶️</div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-badge">✦ Fashion & Beauty — Est. Tanzania ✦</div>
+    <h1 class="hero-title">Style That<br><em>Defines</em><br>You</h1>
+    <p class="hero-subtitle">Nguo • Vipodozi • Viatu • Mikufu • Saa • Kofia • Suti</p>
+    <div class="hero-cta">
+      <a href="#services" class="btn-primary">Angalia Bidhaa</a>
+      <a href="#contact" class="btn-secondary">Wasiliana Nasi</a>
+    </div>
+  </div>
+</section>
+
+<div class="ticker-wrap">
+  <div class="ticker">
+    <span>✦ MWOMBEKI INTERNATIONAL COMPANY</span><span>✦ FASHION & BEAUTY</span><span>✦ NGUO ZA KISASA</span><span>✦ VIATU VYA STAREHE</span><span>✦ MIKUFU YA DHAHABU</span><span>✦ SAA ZA KUPENDEZA</span><span>✦ VIPODOZI VYA HALI YA JUU</span><span>✦ KOFIA ZA MITINDO</span><span>✦ SUTI ZA ELEGANCE</span><span>✦ MWOMBEKI INTERNATIONAL COMPANY</span><span>✦ FASHION & BEAUTY</span><span>✦ NGUO ZA KISASA</span><span>✦ VIATU VYA STAREHE</span><span>✦ MIKUFU YA DHAHABU</span><span>✦ SAA ZA KUPENDEZA</span><span>✦ VIPODOZI VYA HALI YA JUU</span><span>✦ KOFIA ZA MITINDO</span><span>✦ SUTI ZA ELEGANCE</span>
+  </div>
+</div>
+
+<section id="services">
+  <div class="section-label">✦ Bidhaa Zetu</div>
+  <h2 class="section-title">Mkusanyiko <em>Bora</em></h2>
+  <div class="section-divider"></div>
+  <p style="font-size:0.82rem;color:var(--text-muted);max-width:500px;line-height:1.9;">Tunakuletea bidhaa za hali ya juu kutoka kwa wasambazaji bora duniani. Kila kipande kimechaguliwa kwa makini ili kukupa mtindo na ubora wa kweli.</p>
+  <div class="products-grid">
+    <div class="product-card shimmer reveal"><div class="product-emoji-bg product-animated">👗</div><div class="product-gradient"></div><div class="product-info"><div class="product-name">Nguo za Kisasa</div><div class="product-sub">Fashion Wear</div><div class="product-price">Maridadi & Ya Kisasa ✦</div></div></div>
+    <div class="product-card shimmer reveal"><div class="product-emoji-bg product-animated">💍</div><div class="product-gradient"></div><div class="product-info"><div class="product-name">Mikufu & Mapambo</div><div class="product-sub">Jewellery Collection</div><div class="product-price">Dhahabu & Fedha ✦</div></div></div>
+    <div class="product-card shimmer reveal"><div class="product-emoji-bg product-animated">⌚</div><div class="product-gradient"></div><div class="product-info"><div class="product-name">Saa za Mkono</div><div class="product-sub">Luxury Timepieces</div><div class="product-price">Elegance ya Wakati ✦</div></div></div>
+    <div class="product-card shimmer reveal"><div class="product-emoji-bg product-animated">👠</div><div class="product-gradient"></div><div class="product-info"><div class="product-name">Viatu vya Kisasa</div><div class="product-sub">Premium Footwear</div><div class="product-price">Starehe ya Mguu ✦</div></div></div>
+    <div class="product-card shimmer reveal"><div class="product-emoji-bg product-animated">🤵</div><div class="product-gradient"></div><div class="product-info"><div class="product-name">Suti za Elegance</div><div class="product-sub">Premium Suits</div><div class="product-price">Rasmi & Mtindo ✦</div></div></div>
+    <div class="product-card shimmer reveal"><div class="product-emoji-bg product-animated">🎩</div><div class="product-gradient"></div><div class="product-info"><div class="product-name">Kofia za Mitindo</div><div class="product-sub">Fashion Hats & Caps</div><div class="product-price">Kichwa cha Hali ✦</div></div></div>
+    <div class="product-card shimmer reveal"><div class="product-emoji-bg product-animated">💄</div><div class="product-gradient"></div><div class="product-info"><div class="product-name">Vipodozi vya Hali</div><div class="product-sub">Beauty & Cosmetics</div><div class="product-price">Uzuri wa Kweli ✦</div></div></div>
+    <div class="product-card shimmer reveal"><div class="product-emoji-bg product-animated">🕶️</div><div class="product-gradient"></div><div class="product-info"><div class="product-name">Miwani ya Jua</div><div class="product-sub">Designer Sunglasses</div><div class="product-price">Mtindo wa Macho ✦</div></div></div>
+  </div>
+</section>
+
+<section class="video-section reveal">
+  <div class="section-label">✦ Angalia Zaidi</div>
+  <h2 class="section-title">Uzoefu wa <em>Bidhaa</em></h2>
+  <div class="section-divider" style="margin:1.5rem auto 3rem;"></div>
+  <div class="video-wrapper">
+    <div class="video-placeholder">
+      <div class="video-bg-animation">
+        <div class="video-circle"></div>
+        <div class="video-circle"></div>
+        <div class="video-circle"></div>
+      </div>
+      <div id="videoShowcase" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+        <div id="showcaseEmoji" style="font-size:8rem;transition:all 0.5s ease;opacity:0.6;animation:showcasePulse 2s ease-in-out infinite;">👗</div>
+      </div>
+      <button class="play-btn" onclick="startVideoAnimation()" title="Angalia Bidhaa"><i class="fas fa-play" style="margin-left:4px;"></i></button>
+      <span class="video-label">✦ ANGALIA MKUSANYIKO WETU ✦</span>
+    </div>
+  </div>
+</section>
+
+<section id="testimony">
+  <div class="section-label">✦ Maneno ya Wateja</div>
+  <h2 class="section-title">Wanasema <em>Nini</em></h2>
+  <div class="section-divider"></div>
+  <div class="testimonials-grid">
+    <div class="testimonial-card reveal"><div class="testimonial-quote">"</div><div class="stars">★★★★★</div><p class="testimonial-text">Nimepata nguo nzuri sana kutoka MWOMBEKI. Ubora wa kweli, bei nzuri na delivery haraka. Nitaendelea kununua hapa!</p><div class="testimonial-author"><div class="author-avatar">A</div><div><div class="author-name">Amina Hassan</div><div class="author-location">📍 Dar es Salaam</div></div></div></div>
+    <div class="testimonial-card reveal"><div class="testimonial-quote">"</div><div class="stars">★★★★★</div><p class="testimonial-text">Saa niliyonunua ni ya kupendeza sana. Watu wananiuliza nilinunua wapi kila siku! Asante sana MWOMBEKI International.</p><div class="testimonial-author"><div class="author-avatar">J</div><div><div class="author-name">John Mwangi</div><div class="author-location">📍 Nairobi, Kenya</div></div></div></div>
+    <div class="testimonial-card reveal"><div class="testimonial-quote">"</div><div class="stars">★★★★★</div><p class="testimonial-text">Vipodozi vya hali ya juu kwa bei ya chini. Nikijua ni kampuni nzuri hivyo — MWOMBEKI International wanajua fani yao!</p><div class="testimonial-author"><div class="author-avatar">F</div><div><div class="author-name">Fatuma Said</div><div class="author-location">📍 Zanzibar</div></div></div></div>
+    <div class="testimonial-card reveal"><div class="testimonial-quote">"</div><div class="stars">★★★★★</div><p class="testimonial-text">Suti ya harusi yangu ilikuwa perfect kabisa. Florian aliniambia vizuri na akanisaidia kuchagua. Nimefurahi sana!</p><div class="testimonial-author"><div class="author-avatar">D</div><div><div class="author-name">David Kiprotich</div><div class="author-location">📍 Mwanza</div></div></div></div>
+    <div class="testimonial-card reveal"><div class="testimonial-quote">"</div><div class="stars">★★★★★</div><p class="testimonial-text">Mikufu ya dhahabu ni ya kweli na nzuri sana. Bei zinazofaa na huduma ya haraka. Niko satisfied kabisa!</p><div class="testimonial-author"><div class="author-avatar">S</div><div><div class="author-name">Sarah Omondi</div><div class="author-location">📍 Arusha</div></div></div></div>
+    <div class="testimonial-card reveal"><div class="testimonial-quote">"</div><div class="stars">★★★★★</div><p class="testimonial-text">Viatu vya kisasa na vya starehe. Nimevaa kwenye hafla nyingi na mapongezi yamekuwa mengi. Kampuni bora Tanzania!</p><div class="testimonial-author"><div class="author-avatar">M</div><div><div class="author-name">Moses Njoroge</div><div class="author-location">📍 Dodoma</div></div></div></div>
+  </div>
+</section>
+
+<section class="payment-section reveal">
+  <div class="section-label">✦ Malipo</div>
+  <h2 class="section-title">Njia za <em>Kulipa</em></h2>
+  <div class="section-divider"></div>
+  <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.9;max-width:500px;">Tunakubali njia mbalimbali za malipo kwa usalama na urahisi wako.</p>
+  <div class="payment-grid">
+    <div class="payment-card reveal"><div class="payment-icon">🅿️</div><div class="payment-name">PayPal</div><div class="payment-detail">Tuma kwa akaunti yetu</div><div class="payment-holder">Florian Mwombeki Felisian</div></div>
+    <div class="payment-card reveal"><div class="payment-icon">💳</div><div class="payment-name">Payoneer</div><div class="payment-detail">International Payments</div><div class="payment-holder">Florian Mwombeki Felisian</div></div>
+    <div class="payment-card reveal"><div class="payment-icon">📱</div><div class="payment-name">Mobile Money</div><div class="payment-detail">+255 787 504 216<br>+255 765 417 146</div><div class="payment-holder">Florian Mwombeki Felisian</div></div>
+    <div class="payment-card reveal"><div class="payment-icon">🏦</div><div class="payment-name">CRDB Bank</div><div class="payment-detail">0152942505500</div><div class="payment-holder">Florian Mwombeki Felisian</div></div>
+    <div class="payment-card reveal"><div class="payment-icon">🏛️</div><div class="payment-name">NMB Bank</div><div class="payment-detail">32010047257</div><div class="payment-holder">Florian Mwombeki Felisian</div></div>
+  </div>
+</section>
+
+<div class="social-section reveal">
+  <div style="text-align:center;margin-bottom:2rem;">
+    <div class="section-label" style="text-align:center;">✦ Tufuate</div>
+    <h3 style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;">Mitandao ya <em style="color:var(--gold);">Kijamii</em></h3>
+  </div>
+  <div class="social-bar">
+    <a href="https://www.tiktok.com/@pythojus" target="_blank" class="social-link tiktok"><i class="fab fa-tiktok"></i> TikTok @pythojus</a>
+    <a href="https://www.instagram.com/florianmwombeki" target="_blank" class="social-link instagram"><i class="fab fa-instagram"></i> Instagram @Florian mwombeki</a>
+    <a href="https://www.facebook.com" target="_blank" class="social-link facebook"><i class="fab fa-facebook-f"></i> Facebook</a>
+    <a href="https://wa.me/255787504216" target="_blank" class="social-link whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+  </div>
+</div>
+
+<section id="contact">
+  <div class="section-label">✦ Mawasiliano</div>
+  <h2 class="section-title">Wasiliana <em>Nasi</em></h2>
+  <div class="section-divider"></div>
+  <div class="contact-wrapper">
+    <div class="contact-info reveal">
+      <div class="contact-item">
+        <div class="contact-icon"><i class="fab fa-whatsapp"></i></div>
+        <div>
+          <div class="contact-label">WhatsApp 1</div>
+          <div class="contact-value">+255 787 504 216</div>
+          <a href="https://wa.me/255787504216?text=Habari%20MWOMBEKI%2C%20nataka%20kuuliza%20kuhusu%20bidhaa%20zenu" class="whatsapp-btn" target="_blank"><i class="fab fa-whatsapp"></i> Ongea Sasa — 0787504216</a>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon"><i class="fab fa-whatsapp"></i></div>
+        <div>
+          <div class="contact-label">WhatsApp 2</div>
+          <div class="contact-value">+255 765 417 146</div>
+          <a href="https://wa.me/255765417146?text=Habari%20MWOMBEKI%2C%20nataka%20kuuliza%20kuhusu%20bidhaa%20zenu" class="whatsapp-btn" target="_blank"><i class="fab fa-whatsapp"></i> Ongea Sasa — 0765417146</a>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+        <div><div class="contact-label">Mahali Tulipo</div><div class="contact-value">Tanzania 🇹🇿</div></div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon"><i class="fas fa-clock"></i></div>
+        <div><div class="contact-label">Muda wa Kufanya Kazi</div><div class="contact-value">Jumatatu — Ijumaa: 8:00 AM – 8:00 PM<br>Jumamosi: 9:00 AM – 6:00 PM</div></div>
+      </div>
+    </div>
+    <div class="reveal">
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;margin-bottom:0.5rem;">Tuma <em style="color:var(--gold);">Ombi</em></h3>
+      <p style="font-size:0.75rem;color:var(--text-muted);letter-spacing:0.1em;margin-bottom:2rem;">Jaza fomu hii ili tuwasiliane nawe haraka</p>
+      <div class="form-row">
+        <div class="form-group"><label>Jina Lako *</label><input type="text" id="clientName" placeholder="Jina lako kamili"></div>
+        <div class="form-group"><label>Namba ya Simu *</label><input type="tel" id="clientPhone" placeholder="+255 7XX XXX XXX"></div>
+      </div>
+      <div class="form-group"><label>Barua Pepe</label><input type="email" id="clientEmail" placeholder="barua@pepe.com"></div>
+      <div class="form-group"><label>Mahali Ulipo (Location) *</label><input type="text" id="clientLocation" placeholder="Mji / Wilaya / Mkoa wako"></div>
+      <div class="form-group">
+        <label>Unataka Nini (Bidhaa) *</label>
+        <select id="productType">
+          <option value="">— Chagua Bidhaa —</option>
+          <option value="Nguo za Kisasa">👗 Nguo za Kisasa</option>
+          <option value="Mikufu & Mapambo">💍 Mikufu & Mapambo</option>
+          <option value="Saa za Mkono">⌚ Saa za Mkono</option>
+          <option value="Viatu vya Kisasa">👠 Viatu vya Kisasa</option>
+          <option value="Suti za Elegance">🤵 Suti za Elegance</option>
+          <option value="Kofia za Mitindo">🎩 Kofia za Mitindo</option>
+          <option value="Vipodozi">💄 Vipodozi</option>
+          <option value="Miwani ya Jua">🕶️ Miwani ya Jua</option>
+          <option value="Nyingine">📦 Nyingine</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Maelezo Zaidi / Ombi Lako</label><textarea id="clientMessage" rows="4" placeholder="Eleza zaidi unachotaka, rangi, saizi, idadi, n.k."></textarea></div>
+      <button class="btn-primary" onclick="submitForm()" style="width:100%;padding:16px;"><i class="fas fa-paper-plane" style="margin-right:10px;"></i> Tuma Ombi</button>
+      <p style="font-size:0.65rem;color:var(--text-muted);margin-top:1rem;text-align:center;letter-spacing:0.1em;">Tutawasiliana nawe ndani ya masaa 24 ✦ Maombi yote yanatibiwa kwa siri</p>
+    </div>
+  </div>
+</section>
+
+<section id="privacy">
+  <div class="section-label">✦ Sera ya Faragha</div>
+  <h2 class="section-title">Privacy <em>Policy</em></h2>
+  <div class="section-divider"></div>
+  <div class="privacy-content reveal">
+    <div class="privacy-item"><h4>1. Taarifa Tunazokusanya</h4><p>Tunakusanya taarifa unazotupa kama jina lako, namba ya simu, barua pepe, na mahali ulipo wakati wa kufanya ununuzi au kuwasiliana nasi. Taarifa hizi zinatumika kutoa huduma bora.</p></div>
+    <div class="privacy-item"><h4>2. Jinsi Tunavyotumia Taarifa</h4><p>Taarifa yako inatumika kutimiza maagizo, kuwasiliana nawe kuhusu bidhaa, na kuboresha huduma zetu. Hatutaiiuza au kuishiriki na watu wa nje bila ruhusa yako.</p></div>
+    <div class="privacy-item"><h4>3. Usalama wa Taarifa</h4><p>Tunalinda taarifa zako kwa njia za kisasa. Malipo yote yanafanywa kwa njia salama kupitia benki, mobile money, PayPal, na Payoneer zilizoidhinishwa.</p></div>
+    <div class="privacy-item"><h4>4. Bidhaa na Ubora</h4><p>Bidhaa zote ni za ubora wa kweli. Kama bidhaa haikufika katika hali nzuri, tutafanya kila juhudi kutatua tatizo lako haraka na kwa heshima.</p></div>
+    <div class="privacy-item"><h4>5. Mawasiliano</h4><p>Unaweza kuwasiliana nasi wakati wowote kupitia WhatsApp (+255 787 504 216 au +255 765 417 146), TikTok @pythojus, Instagram @Florian mwombeki, au Facebook. Tunajibu haraka!</p></div>
+    <div class="privacy-item"><h4>6. Mabadiliko ya Sera</h4><p>MWOMBEKI International Company inaweza kubadilisha sera hii wakati wowote. Tutakujulisha mabadiliko makubwa kupitia mitandao ya kijamii.</p></div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo">MWOMBEKI</div>
+      <p style="font-size:0.6rem;letter-spacing:0.3em;color:var(--text-muted-dark);margin-bottom:1rem;text-transform:uppercase;">International Company</p>
+      <p class="footer-desc">Tunakupa mtindo wa kisasa na ubora usiopingwa. Bidhaa zetu zinaeneza uzuri, starehe, na elegance kwa kila siku ya maisha yako.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Viungo</h5>
+      <a href="#home">Home</a>
+      <a href="#services">Services</a>
+      <a href="#testimony">Testimony</a>
+      <a href="#contact">Contact</a>
+      <a href="#privacy">Privacy</a>
+    </div>
+    <div class="footer-col">
+      <h5>Wasiliana</h5>
+      <a href="https://wa.me/255787504216" target="_blank">📱 0787 504 216</a>
+      <a href="https://wa.me/255765417146" target="_blank">📱 0765 417 146</a>
+      <a href="https://www.tiktok.com/@pythojus" target="_blank">🎵 TikTok @pythojus</a>
+      <a href="https://www.instagram.com/florianmwombeki" target="_blank">📷 Instagram</a>
+      <a href="https://www.facebook.com" target="_blank">👥 Facebook</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-credits">© 2024 <strong>MWOMBEKI INTERNATIONAL COMPANY</strong> — Haki Zote Zimehifadhiwa</div>
+    <div class="made-by">Made with ♥ by <span>Florian Mwombeki Felisian</span></div>
+  </div>
+</footer>
+
+<script>
+const cursor = document.getElementById('cursor');
+const follower = document.getElementById('cursorFollower');
+let mouseX = 0, mouseY = 0, followerX = 0, followerY = 0;
+document.addEventListener('mousemove', (e) => {
+  mouseX = e.clientX; mouseY = e.clientY;
+  cursor.style.left = mouseX - 6 + 'px';
+  cursor.style.top = mouseY - 6 + 'px';
+});
+function animateFollower() {
+  followerX += (mouseX - followerX - 20) * 0.12;
+  followerY += (mouseY - followerY - 20) * 0.12;
+  follower.style.left = followerX + 'px';
+  follower.style.top = followerY + 'px';
+  requestAnimationFrame(animateFollower);
+}
+animateFollower();
+document.querySelectorAll('a, button').forEach(el => {
+  el.addEventListener('mouseenter', () => { follower.style.width = '60px'; follower.style.height = '60px'; });
+  el.addEventListener('mouseleave', () => { follower.style.width = '40px'; follower.style.height = '40px'; });
+});
+const themeBtn = document.getElementById('themeBtn');
+const themeIcon = document.getElementById('themeIcon');
+let isDark = true;
+themeBtn.addEventListener('click', () => {
+  isDark = !isDark;
+  document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+  themeIcon.className = isDark ? 'fas fa-moon' : 'fas fa-sun';
+});
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+let menuOpen = false;
+hamburger.addEventListener('click', () => {
+  menuOpen = !menuOpen;
+  mobileMenu.classList.toggle('active', menuOpen);
+  hamburger.querySelectorAll('span')[0].style.transform = menuOpen ? 'rotate(45deg) translate(5px, 5px)' : '';
+  hamburger.querySelectorAll('span')[1].style.opacity = menuOpen ? '0' : '1';
+  hamburger.querySelectorAll('span')[2].style.transform = menuOpen ? 'rotate(-45deg) translate(5px, -5px)' : '';
+});
+function closeMobileMenu() {
+  menuOpen = false;
+  mobileMenu.classList.remove('active');
+  hamburger.querySelectorAll('span')[0].style.transform = '';
+  hamburger.querySelectorAll('span')[1].style.opacity = '1';
+  hamburger.querySelectorAll('span')[2].style.transform = '';
+}
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+reveals.forEach(r => observer.observe(r));
+const backTop = document.getElementById('backTop');
+window.addEventListener('scroll', () => { backTop.classList.toggle('visible', window.scrollY > 400); });
+const emojis = ['👗','💍','⌚','👠','🤵','🎩','💄','🕶️','👒','💎'];
+let eIdx = 0, videoRunning = false;
+function startVideoAnimation() {
+  if (videoRunning) return;
+  videoRunning = true;
+  const el = document.getElementById('showcaseEmoji');
+  setInterval(() => {
+    el.style.opacity = '0'; el.style.transform = 'scale(0.5) rotate(-15deg)';
+    setTimeout(() => {
+      eIdx = (eIdx + 1) % emojis.length;
+      el.textContent = emojis[eIdx];
+      el.style.opacity = '0.7'; el.style.transform = 'scale(1) rotate(0deg)';
+    }, 300);
+  }, 1500);
+}
+setTimeout(startVideoAnimation, 2000);
+function submitForm() {
+  const name = document.getElementById('clientName').value.trim();
+  const phone = document.getElementById('clientPhone').value.trim();
+  const location = document.getElementById('clientLocation').value.trim();
+  const product = document.getElementById('productType').value;
+  const message = document.getElementById('clientMessage').value.trim();
+  const email = document.getElementById('clientEmail').value.trim();
+  const n = document.getElementById('notification');
+  if (!name || !phone || !location || !product) {
+    n.textContent = '⚠ Tafadhali jaza sehemu zote muhimu';
+    n.style.background = '#c0392b'; n.classList.add('show');
+    setTimeout(() => { n.classList.remove('show'); n.style.background = 'var(--gold)'; }, 3000);
+    return;
+  }
+  const waMsg = encodeURIComponent(
+    `Habari MWOMBEKI International! 🛍️\n\n` +
+    `👤 *Jina:* ${name}\n📱 *Simu:* ${phone}\n` +
+    (email ? `📧 *Email:* ${email}\n` : '') +
+    `📍 *Mahali:* ${location}\n🛒 *Bidhaa:* ${product}\n` +
+    (message ? `💬 *Maelezo:* ${message}\n` : '') +
+    `\nAsante! Ninangoja majibu yenu.`
+  );
+  window.open(`https://wa.me/255787504216?text=${waMsg}`, '_blank');
+  n.textContent = '✓ Ombi Limetumwa WhatsApp!'; n.classList.add('show');
+  setTimeout(() => n.classList.remove('show'), 4000);
+  ['clientName','clientPhone','clientEmail','clientLocation','clientMessage'].forEach(id => { document.getElementById(id).value = ''; });
+  document.getElementById('productType').value = '';
+}
+document.querySelectorAll('.product-card').forEach((c,i) => { c.style.transitionDelay = `${i*0.08}s`; });
+document.querySelectorAll('.testimonial-card').forEach((c,i) => { c.style.transitionDelay = `${i*0.1}s`; });
+document.querySelectorAll('.payment-card').forEach((c,i) => { c.style.transitionDelay = `${i*0.1}s`; });
+</script>
+</body>
+</html>
